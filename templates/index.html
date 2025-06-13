@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generator | Azure AI Foundry</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <h1>Azure AI Image Generator</h1>
+                </div>
+                <p class="tagline">Transform your ideas into stunning visuals</p>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <div class="generator-container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                                <span class="close-btn" onclick="this.parentElement.style.display='none'">&times;</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="/" class="prompt-form">
+                    <div class="form-group">
+                        <label for="prompt">
+                            <i class="fas fa-lightbulb"></i> Describe your image
+                        </label>
+                        <textarea 
+                            id="prompt" 
+                            name="prompt" 
+                            rows="5" 
+                            placeholder="A futuristic cityscape at sunset with flying cars..."
+                            required></textarea>
+                        <div class="hint">
+                            <i class="fas fa-info-circle"></i> Be as descriptive as possible for best results
+                        </div>
+                    </div>
+
+                    <div class="settings-panel">
+                        <div class="setting">
+                            <label for="size">Image Size:</label>
+                            <select id="size" name="size" disabled title="Coming soon">
+                                <option value="1024x1024">1024×1024 (Default)</option>
+                                <option value="1792x1024">1792×1024</option>
+                                <option value="1024x1792">1024×1792</option>
+                            </select>
+                        </div>
+                        <div class="setting">
+                            <label for="quality">Quality:</label>
+                            <select id="quality" name="quality" disabled title="Coming soon">
+                                <option value="standard">Standard</option>
+                                <option value="hd">HD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="generate-btn">
+                        <i class="fas fa-magic"></i> Generate Image
+                    </button>
+                </form>
+
+                <div class="examples">
+                    <h3>Try these examples:</h3>
+                    <div class="example-prompts">
+                        <button class="example-btn" onclick="fillPrompt('A serene landscape with mountains reflected in a crystal clear lake at sunrise')">
+                            Mountain Lake
+                        </button>
+                        <button class="example-btn" onclick="fillPrompt('A cyberpunk street scene with neon signs and rain-soaked pavement at night')">
+                            Cyberpunk Street
+                        </button>
+                        <button class="example-btn" onclick="fillPrompt('A futuristic space station orbiting a gas giant planet, ultra detailed')">
+                            Space Station
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>Powered by Azure AI Foundry</p>
+            <div class="footer-links">
+                <a href="#" target="_blank">Terms of Service</a>
+                <a href="#" target="_blank">Privacy Policy</a>
+                <a href="https://azure.microsoft.com" target="_blank">Azure Services</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function fillPrompt(text) {
+            document.getElementById('prompt').value = text;
+            document.getElementById('prompt').focus();
+        }
+    </script>
+</body>
+</html>
